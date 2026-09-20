@@ -30,7 +30,7 @@ function Range({ id, label, value, min, max, step, onChange, format, hint }) {
   );
 }
 
-export default function Settings({ settings, update, onClose, onDeleteAll, chatCount }) {
+export default function Settings({ settings, update, onDevicePreferenceChange, onClose, onDeleteAll, chatCount }) {
   const [confirm, setConfirm] = useState(false);
   const closeRef = useRef(null);
 
@@ -114,6 +114,28 @@ export default function Settings({ settings, update, onClose, onDeleteAll, chatC
               format={(v) => `Last ${v} messages`}
               hint="This is a small model. Remembering fewer messages keeps replies faster and more focused."
             />
+          </fieldset>
+
+          <fieldset className="group">
+            <legend>Processing</legend>
+            <div className="seg" role="radiogroup" aria-label="Model processor">
+              {[
+                { key: "auto", label: "Auto" },
+                { key: "gpu", label: "GPU" },
+                { key: "cpu", label: "CPU" },
+              ].map((option) => (
+                <button
+                  key={option.key}
+                  type="button"
+                  role="radio"
+                  aria-checked={settings.preferredDevice === option.key}
+                  className={`seg-btn ${settings.preferredDevice === option.key ? "is-on" : ""}`}
+                  onClick={() => onDevicePreferenceChange(option.key)}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
           </fieldset>
 
           <fieldset className="group">

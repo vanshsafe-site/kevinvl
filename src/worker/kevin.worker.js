@@ -50,7 +50,8 @@ function reportProgress(info) {
 }
 
 async function getGenerator(modelId, device) {
-  if (!generatorPromise) {
+  if (!generatorPromise || device !== activeDevice) {
+    generatorPromise = null;
     activeDevice = device;
     sawTotalProgress = false;
     post({
@@ -134,6 +135,9 @@ async function generate({ id, modelId, system, messages, options }) {
 self.onmessage = async ({ data }) => {
   try {
     if (data.type === "load") {
+      if (data.device !== activeDevice) {
+        generatorPromise = null;
+      }
       await getGenerator(data.modelId, data.device);
       post({ type: "ready", device: activeDevice });
     } else if (data.type === "stop") {

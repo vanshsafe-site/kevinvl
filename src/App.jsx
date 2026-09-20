@@ -49,9 +49,17 @@ export default function App() {
 
   /* ---------- optional auto-start ---------- */
   useEffect(() => {
-    if (settings.autoLoad) kevin.load();
+    if (settings.autoLoad) kevin.load(settings.preferredDevice);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleDevicePreferenceChange = useCallback(
+    (preferredDevice) => {
+      updateSettings({ preferredDevice });
+      kevin.load(preferredDevice);
+    },
+    [kevin, updateSettings]
+  );
 
   /* ---------- scrolling ---------- */
   const scroller = useRef(null);
@@ -278,6 +286,7 @@ export default function App() {
         <Settings
           settings={settings}
           update={updateSettings}
+          onDevicePreferenceChange={handleDevicePreferenceChange}
           onClose={closeSettings}
           onDeleteAll={chats.clearAll}
           chatCount={chats.chats.length}

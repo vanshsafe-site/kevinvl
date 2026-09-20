@@ -66,18 +66,28 @@ export function useKevin() {
     return worker;
   }, [patch, failAll]);
 
-  const load = useCallback(async () => {
-    if (state.phase === "checking" || state.phase === "loading" || state.phase === "ready") return;
-    setState({ ...INITIAL, phase: "checking", text: "Checking what your browser supports…" });
+  const load = useCallback(async (preferredDevice = "auto") => {
+    if (state.phase === "checking" || state.phase === "loading") return;
 
-    const device = await chooseDevice();
+    let device = preferredDevice;
+    if (device === "auto") {
+      setState({ ...INITIAL, phase: "checking", text: "Checking what your browser supports…" });
+      device = await chooseDevice();
+    } else if (device === "gpu") {
+      device = (await chooseDevice()) === "webgpu" ? "webgpu" : "wasm";
+    } else {
+      device = "wasm";
+    }
+
     setState({
       ...INITIAL,
       phase: "loading",
       device,
       text: device === "webgpu"
         ? "Using your GPU for faster replies."
-        : "No supported GPU access found, so K.E.V.I.N will run on your CPU. Replies may be slower.",
+        : preferredDevice === "cpu"
+          ? "Using your CPU. You can switch back to GPU in settings."
+          : "No supported GPU access found, so K.E.V.I.N will run on your CPU. Replies may be slower.",
     });
     ensureWorker().postMessage({ type: "load", modelId: MODEL_ID, device });
   }, [state.phase, ensureWorker]);

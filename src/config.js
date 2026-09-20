@@ -58,6 +58,7 @@ export const DEFAULT_SETTINGS = {
   contextMessages: 12,
   saveChats: true,
   autoLoad: false,
+  preferredDevice: "auto",
 };
 
 export const MOODS = [
