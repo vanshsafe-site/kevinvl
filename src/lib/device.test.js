@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { chooseDevice } from './device.js';
+import { chooseDevice, shouldRetryWithWasm } from './device.js';
 
 test('falls back to wasm on an unsupported mobile GPU adapter', async () => {
   const nav = {
@@ -39,4 +39,10 @@ test('uses webgpu when a mobile adapter passes a real device request', async () 
 
   const device = await chooseDevice({ navigatorRef: nav });
   assert.equal(device, 'webgpu');
+});
+
+test('detects WebGPU startup errors that should retry on wasm', () => {
+  assert.equal(shouldRetryWithWasm('webgpu', new Error('WebGPU is not supported on this device')), true);
+  assert.equal(shouldRetryWithWasm('webgpu', new Error('Random network issue')), false);
+  assert.equal(shouldRetryWithWasm('wasm', new Error('WebGPU is not supported on this device')), false);
 });

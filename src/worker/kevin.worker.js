@@ -4,6 +4,8 @@ import {
   InterruptableStoppingCriteria,
 } from "@huggingface/transformers";
 
+import { shouldRetryWithWasm } from "../lib/device.js";
+
 let generatorPromise = null;
 let activeDevice = null;
 let stopping = null;
@@ -66,6 +68,17 @@ async function getGenerator(modelId, device) {
   try {
     return await generatorPromise;
   } catch (error) {
+    if (shouldRetryWithWasm(device, error)) {
+      generatorPromise = null;
+      activeDevice = "wasm";
+      sawTotalProgress = false;
+      post({
+        type: "status",
+        text: "WebGPU failed, retrying on your CPU…",
+      });
+      return getGenerator(modelId, "wasm");
+    }
+
     generatorPromise = null;
     throw error;
   }
