@@ -1,0 +1,26 @@
+[
+  {
+    "q": "What is K.E.V.I.N?",
+    "a": "K.E.V.I.N stands for Keeping Every Voice in Need. It is a free chat companion that listens patiently and responds with warmth and without judgment. It is an AI, not a person or a therapist."
+  },
+  {
+    "q": "Is my conversation private?",
+    "a": "K.E.V.I.N runs on your own device, so your messages are not sent to a server. The first visit downloads the model files from Hugging Face. Saved conversations stay in your browser's storage, and you can turn saving off or delete everything in Settings."
+  },
+  {
+    "q": "Do I need an account or an API key?",
+    "a": "No. There is no sign-up, no account and no API key."
+  },
+  {
+    "q": "What do I need to use it?",
+    "a": "A recent browser such as Chrome, Edge or Safari. If your browser supports WebGPU, replies are faster; otherwise K.E.V.I.N runs on your CPU, which is slower. The first start downloads a few hundred MB, and after that it loads from your browser's cache."
+  },
+  {
+    "q": "Can K.E.V.I.N replace therapy or emergency help?",
+    "a": "No. K.E.V.I.N is not a therapist, doctor or emergency service. If you are in danger or thinking about harming yourself, contact your local emergency number or a crisis line right away."
+  },
+  {
+    "q": "Which AI model does it use?",
+    "a": "It uses SmolLM2-360M-Instruct from Hugging Face, a small model that fits in a browser. Small models can give simple answers and sometimes get things wrong."
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "name": "kevin-local-emotional-support-ai",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "K.E.V.I.N \u2014 Keeping Every Voice in Need. A private, browser-only emotional-support chat built with React, Vite, Transformers.js and SmolLM2-360M-Instruct.",
+  "license": "Apache-2.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "icons": "node scripts/generate-icons.cjs"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "4.0.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^5.4.11",
+    "sharp": "^0.33.5"
+  }
+}

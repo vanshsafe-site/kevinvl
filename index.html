@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0d1220" />
+
+    <title>K.E.V.I.N: Private Emotional Support AI Chat in Your Browser</title>
+    <meta name="description" content="K.E.V.I.N is a free, private emotional-support AI chat that runs in your browser. No account, no API key, messages stay on your device." />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="application-name" content="K.E.V.I.N" />
+    <meta name="apple-mobile-web-app-title" content="K.E.V.I.N" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="canonical" href="__SITE_URL__/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="K.E.V.I.N" />
+    <meta property="og:title" content="K.E.V.I.N — Keeping Every Voice in Need" />
+    <meta property="og:description" content="A private emotional-support chat that runs entirely in your browser. No account, no API key, nothing leaves your device." />
+    <meta property="og:url" content="__SITE_URL__/" />
+    <meta property="og:image" content="__SITE_URL__/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="A glowing lantern beside the words K.E.V.I.N, Keeping Every Voice in Need" />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="K.E.V.I.N — Keeping Every Voice in Need" />
+    <meta name="twitter:description" content="A private emotional-support chat that runs entirely in your browser." />
+    <meta name="twitter:image" content="__SITE_URL__/og-image.png" />
+    <meta name="twitter:image:alt" content="A glowing lantern beside the words K.E.V.I.N, Keeping Every Voice in Need" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <!-- The model files come from these hosts; resolve DNS early so "Start" feels faster. -->
+    <link rel="dns-prefetch" href="https://huggingface.co" />
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+
+    <!--JSON_LD-->
+
+    <style>
+      /* Critical styles for the pre-rendered content below, shown until the app loads. */
+      html, body { margin: 0; background: #0d1220; }
+      :root[data-theme="light"] body { background: #f0f2f8; }
+      .prerender { max-width: 640px; margin: 0 auto; padding: 12vh 24px 24px; font: 16px/1.6 system-ui, sans-serif; color: #e8ebf7; }
+      :root[data-theme="light"] .prerender { color: #1c2240; }
+      .prerender h1 { font: 500 clamp(28px, 6vw, 40px)/1.15 Georgia, serif; margin: 0 0 14px; }
+      .prerender p, .prerender li { color: #98a2c3; }
+    </style>
+
+    <script>
+      // Apply the saved theme before first paint to avoid a flash.
+      try {
+        var s = JSON.parse(localStorage.getItem("kevin.settings.v2") || "{}");
+        var t = s.theme || "dark";
+        if (t === "system") t = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root">
+      <!-- Pre-rendered for search engines, link previews and slow connections. React replaces this on load. -->
+      <main class="prerender">
+        <h1>K.E.V.I.N — a private emotional-support AI chat that runs in your browser</h1>
+        <p>
+          K.E.V.I.N stands for Keeping Every Voice in Need. It is a free chat companion that listens patiently and responds with warmth and
+          without judgment. It runs on your own device, so there is no account, no API key, and your messages are not sent to a server.
+        </p>
+        <ul>
+          <li>Private: the AI model runs locally in your browser.</li>
+          <li>Gentle: choose a listening, practical or short reply style.</li>
+          <li>Calming: built-in breathing exercises.</li>
+        </ul>
+        <p>K.E.V.I.N is an AI, not a therapist or an emergency service. If you are in danger, contact your local emergency number or a crisis line.</p>
+        <noscript><p>K.E.V.I.N needs JavaScript to run the AI model in your browser. Please enable JavaScript and reload.</p></noscript>
+      </main>
+    </div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
