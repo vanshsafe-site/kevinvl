@@ -127,6 +127,18 @@ async function generate({ id, modelId, system, messages, options }) {
       stopped: stopRequested,
       tps: seconds > 0.3 && tokenCount > 1 ? tokenCount / seconds : null,
     });
+  } catch (error) {
+    if (activeDevice === "webgpu" && shouldRetryWithWasm(activeDevice, error)) {
+      generatorPromise = null;
+      activeDevice = "wasm";
+      sawTotalProgress = false;
+      post({
+        type: "status",
+        text: "GPU generation failed, retrying on your CPU…",
+      });
+      return generate({ id, modelId, system, messages, options });
+    }
+    throw error;
   } finally {
     stopping = null;
   }

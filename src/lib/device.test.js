@@ -3,17 +3,12 @@ import assert from 'node:assert/strict';
 
 import { chooseDevice, shouldRetryWithWasm } from './device.js';
 
-test('prefers webgpu whenever an adapter exists, leaving unsupported startup errors to runtime fallback', async () => {
+test('prefers webgpu whenever the browser exposes the API even if adapter setup is flaky', async () => {
   const nav = {
     userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)',
     gpu: {
       async requestAdapter() {
-        return {
-          features: new Set(),
-          async requestDevice() {
-            throw new Error('Unsupported GPU');
-          },
-        };
+        throw new Error('Unsupported GPU');
       },
     },
   };
