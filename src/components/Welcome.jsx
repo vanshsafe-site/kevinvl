@@ -5,7 +5,7 @@ import ModelGate from "./ModelGate.jsx";
 import Icon from "./Icon.jsx";
 import About from "./About.jsx";
 
-export default function Welcome({ kevin, onPickMood, onBreathe }) {
+export default function Welcome({ kevin, onPickMood, onBreathe, onStart }) {
   return (
     <section className="welcome">
       <h1 className="sr-only">K.E.V.I.N — a private emotional-support AI chat that runs in your browser</h1>
@@ -15,7 +15,7 @@ export default function Welcome({ kevin, onPickMood, onBreathe }) {
       <p className="welcome-title">{greeting()}</p>
       <p className="welcome-sub">This is a quiet place to talk. What's on your mind?</p>
 
-      <ModelGate kevin={kevin} />
+      <ModelGate kevin={kevin} onStart={onStart} />
 
       <div className="moods" role="group" aria-label="How are you arriving today?">
         <p className="moods-label">How are you arriving today?</p>

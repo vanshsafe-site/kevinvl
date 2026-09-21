@@ -1,7 +1,7 @@
 import { MODEL_LABEL } from "../config.js";
 
 /** Explains the model download and shows load progress / errors. */
-export default function ModelGate({ kevin, compact = false }) {
+export default function ModelGate({ kevin, compact = false, onStart }) {
   const { phase, progress, text, detail, error, load } = kevin;
   if (phase === "ready") return null;
 
@@ -20,7 +20,7 @@ export default function ModelGate({ kevin, compact = false }) {
               : `K.E.V.I.N runs entirely on your device using ${MODEL_LABEL}. The first start downloads a few hundred MB; after that it opens from your browser's cache.`}
           </p>
           {phase === "error" && <p className="gate-error">{error}</p>}
-          <button type="button" className="btn btn-primary" onClick={load}>
+          <button type="button" className="btn btn-primary" onClick={onStart ?? load}>
             {phase === "error" ? "Try again" : "Start K.E.V.I.N"}
           </button>
           {phase === "error" && (

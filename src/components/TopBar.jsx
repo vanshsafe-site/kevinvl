@@ -8,7 +8,7 @@ const PHASE_LABEL = {
   error: "Couldn't start",
 };
 
-export default function TopBar({ title, kevin, hasMessages, onMenu, onBreathe, onExport, onSettings }) {
+export default function TopBar({ title, kevin, hasMessages, onMenu, onBreathe, onExport, onSettings, onStart }) {
   const { phase, device, tps, load } = kevin;
   const label =
     phase === "ready"
@@ -26,7 +26,7 @@ export default function TopBar({ title, kevin, hasMessages, onMenu, onBreathe, o
         <button
           type="button"
           className={`status status-${phase}`}
-          onClick={phase === "idle" || phase === "error" ? load : undefined}
+          onClick={phase === "idle" || phase === "error" ? (onStart ?? load) : undefined}
           disabled={phase !== "idle" && phase !== "error"}
           title={phase === "idle" || phase === "error" ? "Start K.E.V.I.N" : undefined}
         >

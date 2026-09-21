@@ -27,6 +27,7 @@ export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showBreathing, setShowBreathing] = useState(false);
+  const [showGpuPrompt, setShowGpuPrompt] = useState(false);
 
   const ready = kevin.phase === "ready";
   const messages = active?.messages ?? [];
@@ -214,6 +215,16 @@ export default function App() {
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
   const openSidebar = useCallback(() => setSidebarOpen(true), []);
 
+  const startWithPrompt = useCallback(() => setShowGpuPrompt(true), []);
+  const startKevin = useCallback(
+    (preferredDevice) => {
+      setShowGpuPrompt(false);
+      updateSettings({ preferredDevice });
+      kevin.load(preferredDevice);
+    },
+    [kevin, updateSettings]
+  );
+
   const lastIsBot = last?.role === "assistant" && !last.owner && !gen;
 
   return (
@@ -238,12 +249,13 @@ export default function App() {
           onBreathe={() => setShowBreathing(true)}
           onExport={exportChat}
           onSettings={() => setShowSettings(true)}
+          onStart={startWithPrompt}
         />
 
         <main className="scroll" ref={scroller} onScroll={onScroll}>
           <div className="column">
             {isEmpty ? (
-              <Welcome kevin={kevin} onPickMood={pickMood} onBreathe={() => setShowBreathing(true)} />
+              <Welcome kevin={kevin} onPickMood={pickMood} onBreathe={() => setShowBreathing(true)} onStart={startWithPrompt} />
             ) : (
               <div className="thread" role="log" aria-live="polite" aria-label="Conversation">
                 {messages.map((m, i) => (
@@ -267,7 +279,7 @@ export default function App() {
 
         <div className="dock">
           <div className="column">
-            {!isEmpty && !ready && <ModelGate kevin={kevin} compact />}
+            {!isEmpty && !ready && <ModelGate kevin={kevin} compact onStart={startWithPrompt} />}
             <Composer
               value={draft}
               onChange={setDraft}
@@ -293,6 +305,21 @@ export default function App() {
         />
       )}
       {showBreathing && <Breathing onClose={closeBreathing} />}
+      {showGpuPrompt && (
+        <div className="overlay" onMouseDown={(e) => e.target === e.currentTarget && setShowGpuPrompt(false)}>
+          <div className="modal" role="dialog" aria-modal="true" aria-labelledby="gpu-prompt-title">
+            <button type="button" className="icon-btn modal-close" onClick={() => setShowGpuPrompt(false)} aria-label="Close GPU prompt">
+              <Icon name="x" />
+            </button>
+            <h2 id="gpu-prompt-title" className="modal-title">Enable GPU</h2>
+            <p className="modal-note">Want faster responses? Enable GPU. This feature might not work on all devices.</p>
+            <div className="modal-foot">
+              <button type="button" className="btn btn-primary" onClick={() => startKevin("gpu")}>Use GPU</button>
+              <button type="button" className="btn" onClick={() => startKevin("cpu")}>Use CPU</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
