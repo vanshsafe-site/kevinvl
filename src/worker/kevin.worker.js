@@ -69,17 +69,6 @@ async function getGenerator(modelId, device) {
   try {
     return await generatorPromise;
   } catch (error) {
-    if (shouldRetryWithWasm(device, error)) {
-      generatorPromise = null;
-      activeDevice = "wasm";
-      sawTotalProgress = false;
-      post({
-        type: "status",
-        text: "WebGPU failed, retrying on your CPU…",
-      });
-      return getGenerator(modelId, "wasm");
-    }
-
     generatorPromise = null;
     throw error;
   }

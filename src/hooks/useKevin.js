@@ -66,15 +66,15 @@ export function useKevin() {
     return worker;
   }, [patch, failAll]);
 
-  const load = useCallback(async (preferredDevice = "auto") => {
+  const load = useCallback(async (preferredDevice = "gpu") => {
     if (state.phase === "checking" || state.phase === "loading") return;
 
     let device = preferredDevice;
     if (device === "auto") {
-      setState({ ...INITIAL, phase: "checking", text: "Checking what your browser supports…" });
-      device = await chooseDevice();
-    } else if (device === "gpu") {
-      device = (await chooseDevice()) === "webgpu" ? "webgpu" : "wasm";
+      device = "gpu";
+    }
+    if (device === "gpu") {
+      device = "webgpu";
     } else {
       device = "wasm";
     }
