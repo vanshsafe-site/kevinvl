@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 
 import { chooseDevice, shouldRetryWithWasm } from './device.js';
 
-test('falls back to wasm on an unsupported mobile GPU adapter', async () => {
+test('prefers webgpu whenever an adapter exists, leaving unsupported startup errors to runtime fallback', async () => {
   const nav = {
     userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)',
     gpu: {
@@ -19,7 +19,7 @@ test('falls back to wasm on an unsupported mobile GPU adapter', async () => {
   };
 
   const device = await chooseDevice({ navigatorRef: nav });
-  assert.equal(device, 'wasm');
+  assert.equal(device, 'webgpu');
 });
 
 test('uses webgpu when a mobile adapter passes a real device request', async () => {
@@ -31,6 +31,25 @@ test('uses webgpu when a mobile adapter passes a real device request', async () 
           features: new Set(['shader-f16']),
           async requestDevice() {
             return {};
+          },
+        };
+      },
+    },
+  };
+
+  const device = await chooseDevice({ navigatorRef: nav });
+  assert.equal(device, 'webgpu');
+});
+
+test('tries webgpu first even when a compatible adapter rejects requestDevice early', async () => {
+  const nav = {
+    userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)',
+    gpu: {
+      async requestAdapter() {
+        return {
+          features: new Set(['shader-f16']),
+          async requestDevice() {
+            throw new Error('Not ready yet');
           },
         };
       },

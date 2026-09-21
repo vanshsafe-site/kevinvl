@@ -3,12 +3,7 @@ export async function chooseDevice({ navigatorRef = navigator } = {}) {
 
   try {
     const adapter = await navigatorRef.gpu.requestAdapter();
-    if (!adapter) return "wasm";
-
-    const device = await adapter.requestDevice?.();
-    if (!device) return "wasm";
-
-    return "webgpu";
+    return adapter ? "webgpu" : "wasm";
   } catch {
     return "wasm";
   }
